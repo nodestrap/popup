@@ -1,0 +1,44 @@
+{
+  "name": "@nodestrap/popup",
+  "version": "4.0.0",
+  "description": "A generic element with dynamic visibility (show/hide).",
+  "type": "module",
+  "main": "dist/Popup.jsx",
+  "types": "dist/Popup.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodestrap/popup.git"
+  },
+  "keywords": [
+    "popup",
+    "show",
+    "hide",
+    "component",
+    "basic",
+    "generic",
+    "element",
+    "react",
+    "nodestrap",
+    "styled"
+  ],
+  "author": "heymarco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nodestrap/popup/issues"
+  },
+  "homepage": "https://github.com/nodestrap/popup#readme",
+  "dependencies": {
+    "@cssfn/css-config": "^1.0.1",
+    "@cssfn/css-types": "^1.0.2",
+    "@cssfn/cssfn": "^1.0.3",
+    "@cssfn/react-cssfn": "^1.0.3",
+    "@nodestrap/basic": "^4.0.2",
+    "@nodestrap/indicator": "^4.0.2",
+    "@popperjs/core": "^2.10.2",
+    "@types/react": "^17.0.36",
+    "react": "^17.0.2"
+  }
+}
