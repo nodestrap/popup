@@ -1,6 +1,6 @@
 {
   "name": "@nodestrap/popup",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A generic element with dynamic visibility (show/hide).",
   "type": "module",
   "main": "dist/Popup.jsx",
