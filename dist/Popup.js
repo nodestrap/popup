@@ -221,25 +221,21 @@ export function Popup(props) {
     useEffect(updatePopperOptions, [isVisible]); // secondary chance (in case of `targetRef` is the parent element)
     // jsx:
     // the `Popup` take care of the *popup animation*:
-    const Popup = (<Indicator 
-    // other props:
-    {...props} 
-    // classes:
-    mainClass={props.mainClass ?? sheet.main} variantClasses={[...(props.variantClasses ?? []),
+    const Popup = (React.createElement(Indicator, { ...props, 
+        // classes:
+        mainClass: props.mainClass ?? sheet.main, variantClasses: [...(props.variantClasses ?? []),
             nudeVariant.class,
-        ]} 
-    // events:
-    onAnimationEnd={(e) => {
+        ], 
+        // events:
+        onAnimationEnd: (e) => {
             props.onAnimationEnd?.(e);
             // states:
             activePassiveState.handleAnimationEnd(e);
-        }}/>);
+        } }));
     // no `targetRef` specified => no `popper` needed:
     if (!props.targetRef)
         return Popup;
     // wrap with a `<div>` for positioning, so the `popper` (position engine) won't modify the `Popup`'s css:
-    return (<div ref={popupRef} style={{ zIndex: 1080 }}>
-            {Popup}
-        </div>);
+    return (React.createElement("div", { ref: popupRef, style: { zIndex: 1080 } }, Popup));
 }
 export { Popup as default };
