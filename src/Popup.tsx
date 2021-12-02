@@ -4,7 +4,6 @@ import {
     useRef,
     useCallback,
     useEffect,
-    useLayoutEffect,
 }                           from 'react'         // base technology of our nodestrap components
 
 // cssfn:
@@ -42,6 +41,11 @@ import {
     usesSuffixedProps,
     overwriteProps,
 }                           from '@cssfn/css-config'  // Stores & retrieves configuration using *css custom properties* (css variables)
+
+// nodestrap utilities:
+import {
+    useIsomorphicLayoutEffect,
+}                           from '@nodestrap/hooks'
 
 // others libs:
 import {
@@ -326,7 +330,7 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
         };
     }, [props.targetRef, props.popupPlacement, props.popupModifiers, props.popupPosition]); // (re)create the function on every time the popup's properties changes
     // (re)run the function on every time the function's reference changes:
-    useLayoutEffect(createPopperCb, [createPopperCb]); // primary   chance (in case of `targetRef` is not the parent element)
+    useIsomorphicLayoutEffect(createPopperCb, [createPopperCb]); // primary   chance (in case of `targetRef` is not the parent element)
     useEffect(createPopperCb, [createPopperCb]);       // secondary chance (in case of `targetRef` is the parent element)
     
     const visibleRef = useRef({ isVisible, wasVisible: null as (boolean|null) });
@@ -353,7 +357,7 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
         popperRef.current.update();
     };
     // (re)run the function on every time the popup's visible changes:
-    useLayoutEffect(updatePopperOptions, [isVisible]); // primary   chance (in case of `targetRef` is not the parent element)
+    useIsomorphicLayoutEffect(updatePopperOptions, [isVisible]); // primary   chance (in case of `targetRef` is not the parent element)
     useEffect(updatePopperOptions, [isVisible]);       // secondary chance (in case of `targetRef` is the parent element)
     
     
