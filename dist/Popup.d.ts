@@ -36,6 +36,7 @@ export interface PopupProps<TElement extends HTMLElement = HTMLElement> extends 
     popupPlacement?: PopupPlacement;
     popupModifiers?: Partial<PopupModifier<string, any>>[];
     popupPosition?: PopupPosition;
+    lazy?: boolean;
 }
 export declare function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupProps<TElement>): JSX.Element;
 export { Popup as default };

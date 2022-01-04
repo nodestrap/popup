@@ -233,7 +233,7 @@ export function Popup(props) {
             props.onAnimationEnd?.(e);
             // states:
             activePassiveState.handleAnimationEnd(e);
-        } }));
+        } }, (!(props.lazy ?? false) || isVisible) && props.children));
     // no `targetRef` specified => no `popper` needed:
     if (!props.targetRef)
         return Popup;

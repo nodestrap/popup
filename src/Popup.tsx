@@ -281,6 +281,7 @@ export interface PopupProps<TElement extends HTMLElement = HTMLElement>
     popupPlacement? : PopupPlacement
     popupModifiers? : Partial<PopupModifier<string, any>>[]
     popupPosition?  : PopupPosition
+    lazy?           : boolean
 }
 export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupProps<TElement>) {
     // styles:
@@ -387,7 +388,9 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
                 // states:
                 activePassiveState.handleAnimationEnd(e);
             }}
-        />
+        >
+            { (!(props.lazy ?? false) || isVisible) && props.children }
+        </Indicator>
     );
     
     // no `targetRef` specified => no `popper` needed:
