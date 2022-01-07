@@ -401,6 +401,7 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
         <div
             ref={popupRef}
             style={{ zIndex: 1080 }}
+            className='overlay'
         >
             { Popup }
         </div>

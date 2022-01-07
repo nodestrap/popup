@@ -238,6 +238,6 @@ export function Popup(props) {
     if (!props.targetRef)
         return Popup;
     // wrap with a `<div>` for positioning, so the `popper` (position engine) won't modify the `Popup`'s css:
-    return (React.createElement("div", { ref: popupRef, style: { zIndex: 1080 } }, Popup));
+    return (React.createElement("div", { ref: popupRef, style: { zIndex: 1080 }, className: 'overlay' }, Popup));
 }
 export { Popup as default };
