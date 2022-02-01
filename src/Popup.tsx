@@ -12,15 +12,14 @@ import type {
 }                           from '@cssfn/css-types'   // ts defs support for cssfn
 import {
     // compositions:
-    composition,
     mainComposition,
-    imports,
     
     
     
-    // layouts:
-    layout,
+    // styles:
+    style,
     vars,
+    imports,
     
     
     
@@ -64,9 +63,6 @@ import {
 import {
     // hooks:
     usesSizeVariant,
-    usesNudeVariant,
-    NudeVariant,
-    useNudeVariant,
 }                           from '@nodestrap/basic'
 import {
     // hooks:
@@ -101,7 +97,7 @@ import {
 //#region activePassive
 /**
  * Uses active & passive states.
- * @returns A `[Factory<StyleCollection>, ReadonlyRefs, ReadonlyDecls]` represents active & passive state definitions.
+ * @returns A `[Factory<Rule>, ReadonlyRefs, ReadonlyDecls]` represents active & passive state definitions.
  */
 export const usesActivePassiveState = () => {
     // dependencies:
@@ -110,30 +106,30 @@ export const usesActivePassiveState = () => {
     
     
     return [
-        () => composition([
-            imports([
+        () => style({
+            ...imports([
                 activePassive(),
             ]),
-            states([
-                isActived([
-                    vars({
+            ...states([
+                isActived({
+                    ...vars({
                         [activePassiveDecls.filter] : cssProps.filterActive,
                     }),
-                ]),
-                isActivating([
-                    vars({
+                }),
+                isActivating({
+                    ...vars({
                         [activePassiveDecls.filter] : cssProps.filterActive,
                         [activePassiveDecls.anim  ] : cssProps.animActive,
                     }),
-                ]),
-                isPassivating([
-                    vars({
+                }),
+                isPassivating({
+                    ...vars({
                         [activePassiveDecls.filter] : cssProps.filterActive,
                         [activePassiveDecls.anim  ] : cssProps.animPassive,
                     }),
-                ]),
+                }),
             ]),
-        ]),
+        }),
         activePassiveRefs,
         activePassiveDecls,
         ...restActivePassive,
@@ -145,12 +141,12 @@ export const usesActivePassiveState = () => {
 
 // styles:
 export const usesPopupLayout = () => {
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // layouts:
             usesIndicatorLayout(),
         ]),
-        layout({
+        ...style({
             // layouts:
             display: 'block',
             
@@ -159,31 +155,28 @@ export const usesPopupLayout = () => {
             // customize:
             ...usesGeneralProps(cssProps), // apply general cssProps
         }),
-    ]);
+    });
 };
 export const usesPopupVariants = () => {
     // dependencies:
     
     // layouts:
-    const [sizes] = usesSizeVariant((sizeName) => composition([
-        layout({
-            // overwrites propName = propName{SizeName}:
-            ...overwriteProps(cssDecls, usesSuffixedProps(cssProps, sizeName)),
-        }),
-    ]));
+    const [sizes] = usesSizeVariant((sizeName) => style({
+        // overwrites propName = propName{SizeName}:
+        ...overwriteProps(cssDecls, usesSuffixedProps(cssProps, sizeName)),
+    }));
     
     
     
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // variants:
             usesIndicatorVariants(),
             
             // layouts:
             sizes(),
-            usesNudeVariant(),
         ]),
-    ]);
+    });
 };
 export const usesPopupStates = () => {
     // dependencies:
@@ -194,25 +187,23 @@ export const usesPopupStates = () => {
     
     
     
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // states:
             enableDisable(),
             activePassive(),
         ]),
-        states([
-            isPassived([
-                layout({
-                    // appearances:
-                    display: 'none', // hide the popup
-                }),
-            ]),
+        ...states([
+            isPassived({
+                // appearances:
+                display: 'none', // hide the popup
+            }),
         ]),
-    ]);
+    });
 };
 
 export const usePopupSheet = createUseSheet(() => [
-    mainComposition([
+    mainComposition(
         imports([
             // layouts:
             usesPopupLayout(),
@@ -223,7 +214,7 @@ export const usePopupSheet = createUseSheet(() => [
             // states:
             usesPopupStates(),
         ]),
-    ]),
+    ),
 ], /*sheetId :*/'usjjnl1scl'); // an unique salt for SSR support, ensures the server-side & client-side have the same generated class names
 
 
@@ -271,10 +262,7 @@ export const [cssProps, cssDecls, cssVals, cssConfig] = createCssConfig(() => {
 
 export interface PopupProps<TElement extends HTMLElement = HTMLElement>
     extends
-        IndicatorProps<TElement>,
-        
-        // layouts:
-        NudeVariant
+        IndicatorProps<TElement>
 {
     // popups:
     targetRef?      : React.RefObject<HTMLElement>|HTMLElement|null // getter ref
@@ -286,11 +274,6 @@ export interface PopupProps<TElement extends HTMLElement = HTMLElement>
 export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupProps<TElement>) {
     // styles:
     const sheet              = usePopupSheet();
-    
-    
-    
-    // variants:
-    const nudeVariant        = useNudeVariant(props);
     
     
     
@@ -374,9 +357,6 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
             
             // classes:
             mainClass={props.mainClass ?? sheet.main}
-            variantClasses={[...(props.variantClasses ?? []),
-                nudeVariant.class,
-            ]}
             
             
             // events:

@@ -1,16 +1,15 @@
 import { default as React } from 'react';
 import type { PropEx } from '@cssfn/css-types';
 import { Placement as PopupPlacement, Modifier as PopupModifier, PositioningStrategy as PopupPosition } from '@popperjs/core';
-import { NudeVariant } from '@nodestrap/basic';
 import { IndicatorProps } from '@nodestrap/indicator';
 /**
  * Uses active & passive states.
- * @returns A `[Factory<StyleCollection>, ReadonlyRefs, ReadonlyDecls]` represents active & passive state definitions.
+ * @returns A `[Factory<Rule>, ReadonlyRefs, ReadonlyDecls]` represents active & passive state definitions.
  */
-export declare const usesActivePassiveState: () => readonly [() => import("@cssfn/cssfn").StyleCollection, import("@cssfn/css-var").ReadonlyRefs<import("@nodestrap/indicator").ActivePassiveVars>, import("@cssfn/css-var").ReadonlyDecls<import("@nodestrap/indicator").ActivePassiveVars>];
-export declare const usesPopupLayout: () => import("@cssfn/cssfn").StyleCollection;
-export declare const usesPopupVariants: () => import("@cssfn/cssfn").StyleCollection;
-export declare const usesPopupStates: () => import("@cssfn/cssfn").StyleCollection;
+export declare const usesActivePassiveState: () => readonly [() => import("@cssfn/cssfn").Rule, import("@cssfn/css-var").ReadonlyRefs<import("@nodestrap/indicator").ActivePassiveVars>, import("@cssfn/css-var").ReadonlyDecls<import("@nodestrap/indicator").ActivePassiveVars>];
+export declare const usesPopupLayout: () => import("@cssfn/cssfn").Rule;
+export declare const usesPopupVariants: () => import("@cssfn/cssfn").Rule;
+export declare const usesPopupStates: () => import("@cssfn/cssfn").Rule;
 export declare const usePopupSheet: import("@cssfn/types").Factory<import("jss").Classes<"main">>;
 export declare const cssProps: import("@cssfn/css-config").Refs<{
     filterActive: string;
@@ -31,7 +30,7 @@ export declare const cssProps: import("@cssfn/css-config").Refs<{
     animActive: (string | PropEx.Keyframes)[][];
     animPassive: (string | PropEx.Keyframes)[][];
 }>, cssConfig: import("@cssfn/css-config").CssConfigSettings;
-export interface PopupProps<TElement extends HTMLElement = HTMLElement> extends IndicatorProps<TElement>, NudeVariant {
+export interface PopupProps<TElement extends HTMLElement = HTMLElement> extends IndicatorProps<TElement> {
     targetRef?: React.RefObject<HTMLElement> | HTMLElement | null;
     popupPlacement?: PopupPlacement;
     popupModifiers?: Partial<PopupModifier<string, any>>[];

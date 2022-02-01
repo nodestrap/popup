@@ -2,9 +2,9 @@
 import { default as React, useRef, useCallback, useEffect, } from 'react'; // base technology of our nodestrap components
 import { 
 // compositions:
-composition, mainComposition, imports, 
-// layouts:
-layout, vars, 
+mainComposition, 
+// styles:
+style, vars, imports, 
 // rules:
 states, } from '@cssfn/cssfn'; // cssfn core
 import { 
@@ -20,7 +20,7 @@ import { createPopper, } from '@popperjs/core';
 // nodestrap components:
 import { 
 // hooks:
-usesSizeVariant, usesNudeVariant, useNudeVariant, } from '@nodestrap/basic';
+usesSizeVariant, } from '@nodestrap/basic';
 import { 
 // hooks:
 usesEnableDisableState, isActived, isActivating, isPassivating, isPassived, usesActivePassiveState as indicatorUsesActivePassiveState, useActivePassiveState, 
@@ -31,36 +31,36 @@ usesIndicatorLayout, usesIndicatorVariants, Indicator, } from '@nodestrap/indica
 //#region activePassive
 /**
  * Uses active & passive states.
- * @returns A `[Factory<StyleCollection>, ReadonlyRefs, ReadonlyDecls]` represents active & passive state definitions.
+ * @returns A `[Factory<Rule>, ReadonlyRefs, ReadonlyDecls]` represents active & passive state definitions.
  */
 export const usesActivePassiveState = () => {
     // dependencies:
     const [activePassive, activePassiveRefs, activePassiveDecls, ...restActivePassive] = indicatorUsesActivePassiveState();
     return [
-        () => composition([
-            imports([
+        () => style({
+            ...imports([
                 activePassive(),
             ]),
-            states([
-                isActived([
-                    vars({
+            ...states([
+                isActived({
+                    ...vars({
                         [activePassiveDecls.filter]: cssProps.filterActive,
                     }),
-                ]),
-                isActivating([
-                    vars({
+                }),
+                isActivating({
+                    ...vars({
                         [activePassiveDecls.filter]: cssProps.filterActive,
                         [activePassiveDecls.anim]: cssProps.animActive,
                     }),
-                ]),
-                isPassivating([
-                    vars({
+                }),
+                isPassivating({
+                    ...vars({
                         [activePassiveDecls.filter]: cssProps.filterActive,
                         [activePassiveDecls.anim]: cssProps.animPassive,
                     }),
-                ]),
+                }),
             ]),
-        ]),
+        }),
         activePassiveRefs,
         activePassiveDecls,
         ...restActivePassive,
@@ -69,70 +69,63 @@ export const usesActivePassiveState = () => {
 //#endregion activePassive
 // styles:
 export const usesPopupLayout = () => {
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // layouts:
             usesIndicatorLayout(),
         ]),
-        layout({
+        ...style({
             // layouts:
             display: 'block',
             // customize:
             ...usesGeneralProps(cssProps), // apply general cssProps
         }),
-    ]);
+    });
 };
 export const usesPopupVariants = () => {
     // dependencies:
     // layouts:
-    const [sizes] = usesSizeVariant((sizeName) => composition([
-        layout({
-            // overwrites propName = propName{SizeName}:
-            ...overwriteProps(cssDecls, usesSuffixedProps(cssProps, sizeName)),
-        }),
-    ]));
-    return composition([
-        imports([
+    const [sizes] = usesSizeVariant((sizeName) => style({
+        // overwrites propName = propName{SizeName}:
+        ...overwriteProps(cssDecls, usesSuffixedProps(cssProps, sizeName)),
+    }));
+    return style({
+        ...imports([
             // variants:
             usesIndicatorVariants(),
             // layouts:
             sizes(),
-            usesNudeVariant(),
         ]),
-    ]);
+    });
 };
 export const usesPopupStates = () => {
     // dependencies:
     // states:
     const [enableDisable] = usesEnableDisableState();
     const [activePassive] = usesActivePassiveState();
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // states:
             enableDisable(),
             activePassive(),
         ]),
-        states([
-            isPassived([
-                layout({
-                    // appearances:
-                    display: 'none', // hide the popup
-                }),
-            ]),
+        ...states([
+            isPassived({
+                // appearances:
+                display: 'none', // hide the popup
+            }),
         ]),
-    ]);
+    });
 };
 export const usePopupSheet = createUseSheet(() => [
-    mainComposition([
-        imports([
-            // layouts:
-            usesPopupLayout(),
-            // variants:
-            usesPopupVariants(),
-            // states:
-            usesPopupStates(),
-        ]),
-    ]),
+    mainComposition(imports([
+        // layouts:
+        usesPopupLayout(),
+        // variants:
+        usesPopupVariants(),
+        // states:
+        usesPopupStates(),
+    ])),
 ], /*sheetId :*/ 'usjjnl1scl'); // an unique salt for SSR support, ensures the server-side & client-side have the same generated class names
 // configs:
 export const [cssProps, cssDecls, cssVals, cssConfig] = createCssConfig(() => {
@@ -169,8 +162,6 @@ export const [cssProps, cssDecls, cssVals, cssConfig] = createCssConfig(() => {
 export function Popup(props) {
     // styles:
     const sheet = usePopupSheet();
-    // variants:
-    const nudeVariant = useNudeVariant(props);
     // states:
     const activePassiveState = useActivePassiveState(props);
     const isVisible = activePassiveState.active || (!!activePassiveState.class);
@@ -225,9 +216,7 @@ export function Popup(props) {
     // the `Popup` take care of the *popup animation*:
     const Popup = (React.createElement(Indicator, { ...props, 
         // classes:
-        mainClass: props.mainClass ?? sheet.main, variantClasses: [...(props.variantClasses ?? []),
-            nudeVariant.class,
-        ], 
+        mainClass: props.mainClass ?? sheet.main, 
         // events:
         onAnimationEnd: (e) => {
             props.onAnimationEnd?.(e);
