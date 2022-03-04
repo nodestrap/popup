@@ -1,6 +1,6 @@
 {
   "name": "@nodestrap/popup",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "A generic element with dynamic visibility (show/hide).",
   "type": "module",
   "main": "dist/Popup.js",
@@ -33,13 +33,13 @@
   "dependencies": {
     "@cssfn/css-config": "^1.0.4",
     "@cssfn/css-types": "^1.0.4",
-    "@cssfn/cssfn": "^1.0.11",
+    "@cssfn/cssfn": "^1.0.12",
     "@cssfn/react-cssfn": "^1.0.11",
+    "@floating-ui/dom": "^0.3.1",
     "@nodestrap/basic": "^4.0.7",
     "@nodestrap/hooks": "^4.0.1",
     "@nodestrap/indicator": "^4.0.7",
-    "@popperjs/core": "^2.11.2",
-    "@types/react": "^17.0.38",
+    "@types/react": "^17.0.39",
     "react": "^17.0.2"
   }
 }

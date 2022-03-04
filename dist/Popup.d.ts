@@ -1,6 +1,6 @@
 import { default as React } from 'react';
 import type { PropEx } from '@cssfn/css-types';
-import { Placement as PopupPlacement, Modifier as PopupModifier, PositioningStrategy as PopupPosition } from '@popperjs/core';
+import type { Placement as PopupPlacement, Middleware as PopupMiddleware, Strategy as PopupStrategy, ComputePositionReturn } from '@floating-ui/dom';
 import { IndicatorProps } from '@nodestrap/indicator';
 /**
  * Uses active & passive states.
@@ -33,10 +33,15 @@ export declare const cssProps: import("@cssfn/css-config").Refs<{
 export interface PopupProps<TElement extends HTMLElement = HTMLElement> extends IndicatorProps<TElement> {
     targetRef?: React.RefObject<HTMLElement> | HTMLElement | null;
     popupPlacement?: PopupPlacement;
-    popupModifiers?: Partial<PopupModifier<string, any>>[];
-    popupPosition?: PopupPosition;
+    popupMiddleware?: PopupMiddleware[] | ((defaultMiddleware: PopupMiddleware[]) => Promise<PopupMiddleware[]>);
+    popupStrategy?: PopupStrategy;
+    popupAutoFlip?: boolean;
+    popupAutoShift?: boolean;
+    popupOffset?: number;
+    popupShift?: number;
+    onPopupUpdate?: (computedPosition: ComputePositionReturn) => Promise<void>;
     lazy?: boolean;
 }
 export declare function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupProps<TElement>): JSX.Element;
 export { Popup as default };
-export type { PopupPlacement, PopupModifier, PopupPosition };
+export type { PopupPlacement, PopupMiddleware, PopupStrategy };
