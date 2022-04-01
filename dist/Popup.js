@@ -314,7 +314,7 @@ export function Popup(props) {
         mainClass: props.mainClass ?? sheet.main, classes: [...(props.classes ?? []),
             ((targetRef && popupPos) && popupPos.placement) || null,
             (targetRef && 'overlay') || null,
-        ], style: {
+        ], style: { ...(props.style ?? {}),
             position: (targetRef && popupStrategy) || undefined,
             left: (targetRef && popupPos) ? `${popupPos.x}px` : undefined,
             top: (targetRef && popupPos) ? `${popupPos.y}px` : undefined,
