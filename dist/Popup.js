@@ -15,6 +15,9 @@ import { createCssConfig,
 usesGeneralProps, usesSuffixedProps, overwriteProps, } from '@cssfn/css-config'; // Stores & retrieves configuration using *css custom properties* (css variables)
 // nodestrap utilities:
 import { useIsomorphicLayoutEffect, } from '@nodestrap/hooks';
+import { 
+// utilities:
+setRef, } from '@nodestrap/utilities';
 // nodestrap components:
 import { 
 // hooks:
@@ -301,7 +304,10 @@ export function Popup(props) {
     // jsx:
     return (React.createElement(Indicator, { ...restProps, 
         // essentials:
-        elmRef: popupRef, 
+        elmRef: (elm) => {
+            setRef(props.elmRef, elm);
+            setRef(popupRef, elm);
+        }, 
         // accessibilities:
         active: props.active
             &&
@@ -314,10 +320,11 @@ export function Popup(props) {
         mainClass: props.mainClass ?? sheet.main, classes: [...(props.classes ?? []),
             ((targetRef && popupPos) && popupPos.placement) || null,
             (targetRef && 'overlay') || null,
-        ], style: { ...(props.style ?? {}),
+        ], style: {
             position: (targetRef && popupStrategy) || undefined,
             left: (targetRef && popupPos) ? `${popupPos.x}px` : undefined,
             top: (targetRef && popupPos) ? `${popupPos.y}px` : undefined,
+            ...(props.style ?? {}),
         }, 
         // events:
         onAnimationEnd: (e) => {

@@ -48,6 +48,10 @@ import {
 import {
     useIsomorphicLayoutEffect,
 }                           from '@nodestrap/hooks'
+import {
+    // utilities:
+    setRef,
+}                           from '@nodestrap/utilities'
 
 // others libs:
 import type {
@@ -514,7 +518,11 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
             
             
             // essentials:
-            elmRef={popupRef}
+            elmRef={(elm) => {
+                setRef(props.elmRef, elm);
+                
+                setRef(popupRef, elm);
+            }}
             
             
             // accessibilities:
@@ -536,10 +544,12 @@ export function Popup<TElement extends HTMLElement = HTMLElement>(props: PopupPr
                 ((targetRef && popupPos) && popupPos.placement) || null,
                 (targetRef && 'overlay') || null,
             ]}
-            style={{...(props.style ?? {}),
+            style={{
                 position : (targetRef && popupStrategy) || undefined,
                 left     : (targetRef && popupPos) ? `${popupPos.x}px` : undefined,
                 top      : (targetRef && popupPos) ? `${popupPos.y}px` : undefined,
+                
+                ...(props.style ?? {}),
             }}
             
             
